@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-underchat-dev-220108-authRole",
+      "UnauthRoleArn": "arn:aws:iam::080068577954:role/amplify-underchat-dev-220108-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::080068577954:role/amplify-underchat-dev-220108-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-underchat-dev-220108-deployment",
+      "UnauthRoleName": "amplify-underchat-dev-220108-unauthRole",
+      "StackName": "amplify-underchat-dev-220108",
+      "StackId": "arn:aws:cloudformation:us-east-2:080068577954:stack/amplify-underchat-dev-220108/c8274d20-1518-11ec-92b2-021d769ca334",
+      "AmplifyAppId": "d4lhkl2dpbk0s"
+    },
+    "categories": {
+      "auth": {
+        "underchat4411a354": {}
+      }
+    }
+  }
+}

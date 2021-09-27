@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "underchat",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authunderchat4411a354",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
