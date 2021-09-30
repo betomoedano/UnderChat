@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useDispatch } from "react-redux"
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet} from "react-native"
+import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet, Platform} from "react-native"
 import { login, logout, setExpoToken } from "../redux/slices/userSlice"
 import { Auth } from "aws-amplify";
 import { API, graphqlOperation, } from 'aws-amplify'

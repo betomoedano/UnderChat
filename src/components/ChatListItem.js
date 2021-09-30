@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from "react"
-import { SafeAreaView, Text, View, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, Dimensions} from "react-native";
+import { SafeAreaView, Text, View, Image, ScrollView, StyleSheet, Platform, TouchableOpacity, Alert, Dimensions} from "react-native";
 import tw from "tailwind-react-native-classnames"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigation } from "@react-navigation/core";
@@ -8,6 +8,7 @@ import { API, graphqlOperation, } from 'aws-amplify'
 import { deleteChatRoom } from "../graphql/mutations"
 import moment from "moment";
 import { AntDesign } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 
 
 
@@ -24,6 +25,19 @@ function ChatListItem (props) {
     //console.log("chat ROOOOM",chatRoom);
 
     //console.log("USERRRRR  ",user);
+      function impactAsync(style) {
+        switch (style) {
+          case 'light':
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            break;
+          case 'medium':
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            break;
+          default:
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            break;
+        }
+      }
 
 
     useEffect(() => {
@@ -51,14 +65,14 @@ function ChatListItem (props) {
     }
 
     const onPressChat = () => {
-      console.log(chatRoom)
+      //console.log(chatRoom)
         navigation.navigate("ChatRoomScreen", {id: chatRoom.id, contactName: otherUser.username, expoPushToken: otherUser.expoToken, contactStatus: otherUser.status, contactEmail:otherUser.email});
     }
     return (
             <TouchableOpacity 
             style={{backgroundColor:"#fff"}}
               onPress={onPressChat} 
-              onLongPress={()=> {Alert.alert("Remove conversation","Are you sure you want to delete this conversation?",
+              onLongPress={()=> {impactAsync("medium") ,Alert.alert("Remove conversation","Are you sure you want to delete this conversation?",
                 [
                   {
                     text: "Nope",
