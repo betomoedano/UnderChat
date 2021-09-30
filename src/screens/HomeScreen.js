@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet, Platform} from "react-native"
-import { login, logout, setExpoToken } from "../redux/slices/userSlice";
+import { login, setImageUrl} from "../redux/slices/userSlice";
 import { Auth } from "aws-amplify";
 import { API, graphqlOperation, } from 'aws-amplify'
 import { createUser } from "../graphql/mutations";
@@ -78,13 +78,14 @@ export default function HomeScreen ({ navigation }) {
               const userID = await API.graphql(graphqlOperation(queries.getUser, {id:userInfo.attributes.sub}));
               if(userID.data.getUser) {
                 console.log("user already registrated in database!");
-                //console.log(userID);
+                dispatch(setImageUrl(userID.data.getUser.imageUri));
                 return;
               } else {
                 try {
                   axios.defaults.headers.common['x-api-key'] = "fd993a21-5988-4c94-b9ea-c16653f02645" 
                   let response = await axios.get('https://api.thecatapi.com/v1/images/search', { params: { limit:1, size:"small" } });
                     console.log(response.data[0].url)
+                    dispatch(setImageUrl(response.data[0].url));
                     // setRandomUrl(response.data.map(getCatPhoto)[0].toString());
                     // console.log('foto', response.data.map(getCatPhoto)[0].toString())
                 const newUser = {

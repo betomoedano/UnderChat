@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./HomeScreen"
 import DashboardScreen from "./DashboardScreen"
 import AddContactScreen from "./AddContactScreen";
-import { View, Image, Text,StyleSheet, Dimensions, Alert } from "react-native";
+import { View, Image, Text,StyleSheet, Dimensions, Alert, Button } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackActions } from "@react-navigation/core";
@@ -131,6 +131,9 @@ function Tabs() {
                 component={DashboardScreen}
                 options={(route) => ({
                     title:"Profile",
+                    headerRight: () => (
+                        <Button title='Edit'/>
+                    ),
                     tabBarIcon:({focused}) => (
                         <Ionicons name="person" size={26} color={focused ? '#4BA8E2' : 'gray'} />
                     ),

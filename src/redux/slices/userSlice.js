@@ -6,6 +6,7 @@ const initialState = {
     username: "",
     email: "",
     expoToken: "NO DATA",
+    imageUrl: "",
 }
 
 export const userSlice = createSlice({
@@ -20,6 +21,7 @@ export const userSlice = createSlice({
                   username: action.payload.username,
                   email: action.payload.email,
                   expoToken: state.expoToken,
+                  imageUrl: state.imageUrl,
               }
             // state = action.payload;
             // console.log("state from login Slice: " ,state);
@@ -32,6 +34,7 @@ export const userSlice = createSlice({
                   username: state.username,
                   email: state.email,
                   expoToken: action.payload,
+                  imageUrl: state.imageUrl,
               }
         },
         setName: (state, action) => {
@@ -42,6 +45,18 @@ export const userSlice = createSlice({
                   username: state.username,
                   email: state.email,
                   expoToken: state.expoToken,
+                  imageUrl: state.imageUrl,
+              }
+        },
+        setImageUrl: (state, action) => {
+            return {
+                ...state,
+                  id: state.id,
+                  name: state.name,
+                  username: state.username,
+                  email: state.email,
+                  expoToken: state.expoToken,
+                  imageUrl: action.payload,
               }
         },
         logout: (state) => {
@@ -52,6 +67,7 @@ export const userSlice = createSlice({
                   username: "",
                   email: "", 
                   expoToken: "",
+                  imageUrl:"",
               }
             // state = initialState;
             // console.log("initial state")
@@ -59,6 +75,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const {login, logout, setExpoToken, setName} = userSlice.actions;
+export const {login, logout, setExpoToken, setName, setImageUrl} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -7,10 +7,6 @@ import * as queries from "../graphql/queries";
 import * as mutations from "../graphql/mutations"
 import { useSelector } from 'react-redux';
 import { useNavigation } from "@react-navigation/core";
-import HomeScreen from "./HomeScreen";
-
-
-
 
 const AddContactScreen = (props) => {
 
