@@ -21,6 +21,8 @@ import { createMessage, updateChatRoom } from '../graphql/mutations';
 import { useDispatch, useSelector } from "react-redux"
 import { API, graphqlOperation, } from 'aws-amplify'
 import * as Notifications from 'expo-notifications';
+import * as Haptics from 'expo-haptics';
+
 
 
 
@@ -66,6 +68,7 @@ function TextInputComponent(props) {
             try {
                 const newMessageData = await API.graphql(graphqlOperation(createMessage, { input }))
                 await updateChatRoomLastMessage(newMessageData.data.createMessage.id)
+                impactAsync('light')
                 await sendPushNotification(props.expoToken)
                 console.log("message sent with push and saved!")
             } catch (error) {
@@ -117,6 +120,19 @@ Notifications.setNotificationCategoryAsync("replyMessage", [
     },
   ], {showTitle: true})
 
+  function impactAsync(style) {
+    switch (style) {
+      case 'light':
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        break;
+      case 'medium':
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        break;
+      default:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        break;
+    }
+  }
 
     return (
             <View style={styles.container}>

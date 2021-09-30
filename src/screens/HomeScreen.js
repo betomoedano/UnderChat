@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet, Platform} from "react-native"
-import { login, logout, setExpoToken } from "../redux/slices/userSlice"
+import { login, logout, setExpoToken } from "../redux/slices/userSlice";
 import { Auth } from "aws-amplify";
 import { API, graphqlOperation, } from 'aws-amplify'
-import { createUser } from "../graphql/mutations"
-import * as queries from "../graphql/queries"
-import { onCreateChatRoomUser } from "../graphql/subscriptions"
+import { createUser } from "../graphql/mutations";
+import * as queries from "../graphql/queries";
+import { onCreateChatRoomUser } from "../graphql/subscriptions";
 import ChatListItem from "../components/ChatListItem";
-import tw from "tailwind-react-native-classnames"
-import { queryGetUser } from "../graphql/queryGetUser"
+import tw from "tailwind-react-native-classnames";
+import { queryGetUser } from "../graphql/queryGetUser";
 import { ScrollView } from "react-native-gesture-handler";
+import axios from 'axios';
 
 
 
@@ -30,6 +31,7 @@ export default function HomeScreen ({ navigation }) {
     const [chatRooms, setChatRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+
 
     const dispatch = useDispatch();
 
@@ -64,6 +66,10 @@ export default function HomeScreen ({ navigation }) {
         }catch( e ) { console.log(e) }
       }
 
+      function getCatPhoto(item) {
+        return [item.url];
+      }
+
     async function saveCurrentUserToDatabase() {
         const userInfo = await Auth.currentAuthenticatedUser({bypassCache: true});
         if (userInfo)
@@ -75,20 +81,32 @@ export default function HomeScreen ({ navigation }) {
                 //console.log(userID);
                 return;
               } else {
+                try {
+                  axios.defaults.headers.common['x-api-key'] = "fd993a21-5988-4c94-b9ea-c16653f02645" 
+                  let response = await axios.get('https://api.thecatapi.com/v1/images/search', { params: { limit:1, size:"small" } });
+                    console.log(response.data[0].url)
+                    // setRandomUrl(response.data.map(getCatPhoto)[0].toString());
+                    // console.log('foto', response.data.map(getCatPhoto)[0].toString())
                 const newUser = {
                     id: userInfo.attributes.sub,
                     username: userInfo.username,
                     email: userInfo.attributes.email,
                     expoToken: user.expoToken,
-                    status: "Hey there! I am using Underchat... 🚀 🎸"
+                    status: "Hey there! I am using Underchat... 🚀 🎸",
+                    imageUri: response.data[0].url ? response.data[0].url : "",
                 }
                 await API.graphql(graphqlOperation(createUser, { input: newUser }))
                 console.log("user saved correctly")
+              }catch (e) {console.log(e)}
               }
           }catch (e) {console.log(e, "error fetching users")}
         }
       }
     
+      function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+
     const fetchChatRooms = async () => {
       try {
         setIsLoading(true)
@@ -96,14 +114,14 @@ export default function HomeScreen ({ navigation }) {
         const userInfo = await Auth.currentAuthenticatedUser({bypassCache: true});
         const userID = userInfo.attributes.sub;
         const chatRoomsData = await API.graphql(graphqlOperation(queryGetUser, {id:userID}));
-        
-        if(chatRoomsData) {
+        // console.log(chatRoomsData);
+        if(isEmpty(chatRoomsData)) {
           //console.log(chatRoomsData)
           //console.log(chatRoomsData.data.getUser.chatRoomUser.items);
-          setChatRooms(chatRoomsData.data.getUser.chatRoomUser.items);
           //console.log(chatRooms.items);
+          Alert.alert("you don't have conversations!")
         } else {
-          Alert.alert("no data")
+          setChatRooms(chatRoomsData.data.getUser.chatRoomUser.items);
         }
       }catch(e) { console.log("something went wrong", e)}
       setIsLoading(false)

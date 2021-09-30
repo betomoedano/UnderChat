@@ -20,6 +20,7 @@
     "amazon-cognito-identity-js": "^5.1.0",
     "aws-amplify": "^4.2.9",
     "aws-amplify-react-native": "^5.0.3",
+    "axios": "^0.21.4",
     "expo": "~42.0.1",
     "expo-apple-authentication": "~3.2.1",
     "expo-haptics": "~10.1.0",

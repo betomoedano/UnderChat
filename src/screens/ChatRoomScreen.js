@@ -9,6 +9,7 @@ import ChatMessageComponent from '../components/ChatMessageComponent';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { onCreateMessage } from "../graphql/subscriptions"
 import TextInputComponent from '../components/TextInputComponent';
+import * as Haptics from 'expo-haptics';
 
 
 export default function ChatRoomScreen(props) {
@@ -29,12 +30,13 @@ export default function ChatRoomScreen(props) {
 }
 
   const fetchMessagesNextToken = async () => {
-    setIsLoading(true)
     if(nextToken === null){
       setIsLoading(false)
       return
     }
     else if(nextToken) {
+      setIsLoading(true)
+      impactAsync('medium')
         try {
           const messagesData = await API.graphql(
             graphqlOperation(
@@ -70,10 +72,11 @@ export default function ChatRoomScreen(props) {
           }
         )
       )
-      setNextToken(messagesData.data.messagesByChatRoom.nextToken.toString())
+      if(messagesData.data.messagesByChatRoom.nextToken) {
+        setNextToken(messagesData.data.messagesByChatRoom.nextToken.toString())
+      }
       console.log("FETCH MESSAGES")
       setMessages(messagesData.data.messagesByChatRoom.items);
-      console.log(nextToken);
       //console.log(messagesData.data.messagesByChatRoom);
     } catch (e){console.log(e)}
 
@@ -94,6 +97,20 @@ export default function ChatRoomScreen(props) {
     return () => subscription.unsubscribe();
   }, [])
 
+  function impactAsync(style) {
+    switch (style) {
+      case 'light':
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        break;
+      case 'medium':
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        break;
+      default:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        break;
+    }
+  }
+
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -101,7 +118,7 @@ export default function ChatRoomScreen(props) {
     style={{flex:1}}
   >
       <View style={{height:'100%', alignItems:"center", backgroundColor:"#f2f2f7"}}>
-        {isLoading ? <ActivityIndicator size="large"/> : <Text></Text>}
+        {isLoading ? <ActivityIndicator size="small" /> : <Text></Text>}
         <FlatList 
           data={messages}
           renderItem={({item}) => <ChatMessageComponent message = {item}/>}

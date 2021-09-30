@@ -50,7 +50,7 @@ function ChatListItem (props) {
           }
         }
         getOtherUser();
-        //console.log(otherUser)
+        //console.log("other user", otherUser)
       }, [])
 
     if (!otherUser) {
@@ -94,15 +94,31 @@ function ChatListItem (props) {
                         marginLeft:10,
                         borderColor:"lightgray",                        
                         }}>
-                        <Image
-                            source={require("../../assets/I/Human/person.crop.circle.fill.png")}
-                            style={{
+                  {otherUser.imageUri ?
+                      <Image                           
+                        style={{
+                              resizeMode:"cover",
                                 marginRight: 13,
-                                tintColor:'gray',
-                                width: 40,
-                                height: 40,
+                                width: 55,
+                                height: 55,
+                                borderRadius:100,
                             }}
-                        />  
+                            source={{
+                              uri: otherUser.imageUri
+                            }} 
+                        />  :
+                        <Image                           
+                        style={{
+                              resizeMode:"cover",
+                                marginRight: 13,
+                                width: 55,
+                                height: 55,
+                                borderRadius:100,
+                            }}
+                            source={require('../../assets/I/Human/person.crop.circle.fill.png')}
+                        /> 
+                  }
+
                         <View style={{width:"80%"}}>
                             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
                               <Text style={tw.style("text-lg font-semibold text-gray-800")}>{otherUser.username} </Text>    
