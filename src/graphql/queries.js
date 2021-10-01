@@ -21,16 +21,7 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
-      friends {
-        items {
-          id
-          userID
-          username
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      friends
       createdAt
       updatedAt
     }
@@ -54,66 +45,7 @@ export const listUsers = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getFriend = /* GraphQL */ `
-  query GetFriend($id: ID!) {
-    getFriend(id: $id) {
-      id
-      userID
-      username
-      user {
-        id
-        name
-        username
-        email
-        expoToken
-        imageUri
-        status
-        chatRoomUser {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listFriends = /* GraphQL */ `
-  query ListFriends(
-    $filter: ModelFriendFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listFriends(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        userID
-        username
-        user {
-          id
-          name
-          username
-          email
-          expoToken
-          imageUri
-          status
-          createdAt
-          updatedAt
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -138,9 +70,7 @@ export const getChatRoomUser = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -188,6 +118,7 @@ export const listChatRoomUsers = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -244,6 +175,7 @@ export const getChatRoom = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -310,9 +242,7 @@ export const getMessage = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -361,6 +291,7 @@ export const listMessages = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -371,28 +302,6 @@ export const listMessages = /* GraphQL */ `
           updatedAt
         }
         updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const friendsByUserID = /* GraphQL */ `
-  query FriendsByUserID(
-    $userID: ID
-    $sortDirection: ModelSortDirection
-    $filter: ModelFriendFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    friendsByUserID(
-      userID: $userID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        username
       }
       nextToken
     }
@@ -429,6 +338,7 @@ export const messagesByChatRoom = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }

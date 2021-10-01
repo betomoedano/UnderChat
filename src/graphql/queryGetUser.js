@@ -8,6 +8,7 @@ export const queryGetUser = /* GraphQL */ `
         expoToken
         imageUri
         status
+        friends
         chatRoomUser {
           items {
             id

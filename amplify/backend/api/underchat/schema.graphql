@@ -7,15 +7,7 @@ type User @model {
   imageUri: String
   status: String
   chatRoomUser: [ChatRoomUser] @connection(keyName: "byUser", fields: ["id"])
-  friends: [Friend] @connection (keyName: "byUser", fields: ["id"])
-}
-
-type Friend @model 
-@key(name: "byUser", fields: ["userID"], queryField: "friendsByUserID") {
-  id: ID!
-  userID: ID!
-  username: String!
-  user: User @connection(fields: ["userID"])
+  friends: [String]
 }
 
 type ChatRoomUser

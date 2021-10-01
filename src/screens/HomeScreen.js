@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet, Platform} from "react-native"
-import { login, setImageUrl} from "../redux/slices/userSlice";
+import { login, setFriends, setImageUrl} from "../redux/slices/userSlice";
 import { Auth } from "aws-amplify";
 import { API, graphqlOperation, } from 'aws-amplify'
 import { createUser } from "../graphql/mutations";
@@ -47,7 +47,7 @@ export default function HomeScreen ({ navigation }) {
         next: (event) => {
           //setChatRooms([...chatRooms, event.value.data.onCreateChatRoomUser]);
           fetchChatRooms();
-          console.log("Subscritpion", event.value.data.onCreateChatRoomUser)
+          //console.log("Subscritpion", event.value.data.onCreateChatRoomUser)
         }
       });
       return () => {
@@ -79,6 +79,7 @@ export default function HomeScreen ({ navigation }) {
               if(userID.data.getUser) {
                 console.log("user already registrated in database!");
                 dispatch(setImageUrl(userID.data.getUser.imageUri));
+                dispatch(setFriends(userID.data.getUser.friends));
                 return;
               } else {
                 try {
@@ -94,6 +95,7 @@ export default function HomeScreen ({ navigation }) {
                     email: userInfo.attributes.email,
                     expoToken: user.expoToken,
                     status: "Hey there! I am using Underchat... 🚀 🎸",
+                    friends: [],
                     imageUri: response.data[0].url ? response.data[0].url : "",
                 }
                 await API.graphql(graphqlOperation(createUser, { input: newUser }))

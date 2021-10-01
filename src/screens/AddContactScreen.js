@@ -1,12 +1,16 @@
-import React, { useState }  from "react"
+import React, { useState, useEffect }  from "react"
 import { SafeAreaView, Text, View, ActivityIndicator, Image, ScrollView, TextInput, TouchableOpacity, Alert} from "react-native";
 import tw from "tailwind-react-native-classnames"
 import { FormStyles } from "../Styles/FormStyles";
 import {API, graphqlOperation} from "aws-amplify"
-import * as queries from "../graphql/queries";
+import {queryGetUser} from "../graphql/queryGetUser";
 import * as mutations from "../graphql/mutations"
+import * as queries from "../graphql/queries"
 import { useSelector } from 'react-redux';
 import { useNavigation } from "@react-navigation/core";
+import { useDispatch } from "react-redux";
+import { setFriends} from "../redux/slices/userSlice";
+
 
 const AddContactScreen = (props) => {
 
@@ -14,8 +18,10 @@ const AddContactScreen = (props) => {
 
     const [inputUsername, setInputUsername] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [isAlreadyFriend, setIsAlreadyFriend] = useState(false);
     const navigation = useNavigation();
+    const [newArrayOfFriends, setNewArrayOfFriends] = useState(user.friends)
+    
+    const dispatch = useDispatch();
 
 
     function getContactUsername(item) {
@@ -25,46 +31,72 @@ const AddContactScreen = (props) => {
         return [item.id]
     }
 
-    const getListOfFriends = async () => {
-        try {
-            const friends = await API.graphql(graphqlOperation(queries.friendsByUserID, {userID: user.id}))
-            console.log(friends.data.friendsByUserID.items)
-        }catch (e) {console.log(e)}
+    const isAlreadyFriend = () => {
+        let friends = user.friends
+        const result = friends.includes(inputUsername)
+        return(result);
     }
 
     const getContactInfo = async (username) => {
-        try {
+        if (username == user.username) {
+            Alert.alert("That's your username 🤔");
+            setIsLoading(false);
+            return;
+        }
+        if (username == "") {
+            Alert.alert("Please type a username");
+            setIsLoading(false);
+            return;
+        }
+        if(!isAlreadyFriend()) {
+            try {
             setIsLoading(true);
-            getListOfFriends();
             const contactInfo = await API.graphql({query: queries.listUsers, variables: {filter:{username:{eq:username}}}});
-            if (contactInfo.data.listUsers.items.map(getContactUsername).toString() == user.username) {
-                Alert.alert("That's your username 🤔");
-                setIsLoading(false);
-                return;
-            } else if (contactInfo.data.listUsers.items.map(getContactUsername).toString()) {  
+            if (contactInfo.data.listUsers.items.map(getContactUsername).toString()) {  
+
                 // if Contact exist we create a new chat room!
                 const newChatRoomData = await API.graphql({query: mutations.createChatRoom, variables: {input: {lastMessageID: "zz753fca-e8c3-473b-8e85-b14196e84e16"}}});
-                console.log(newChatRoomData);
+                //console.log(newChatRoomData);
                 const newChatRoom = newChatRoomData.data.createChatRoom;
                 const contactID = contactInfo.data.listUsers.items.map(getContactID).toString();
+
                 // here we add the contact user to the new chatroom
                 await API.graphql({query: mutations.createChatRoomUser, variables: {input: {
                     userID: contactID,
                     chatRoomID: newChatRoom.id
                 }}})
+
                 // here we add ourself to the same new chatroom
                 await API.graphql({query: mutations.createChatRoomUser, variables: {input: {
                     userID: user.id,
                     chatRoomID: newChatRoom.id
-                }}})        
-                //console.log(contactInfo.data.listUsers.items.map(getContactUsername).toString())
+                }}})       
+
+                // after we create a new contact we save the new conversation to our friens
+                //1./ get list of friends from api
+                try {
+                    const friends = await API.graphql(graphqlOperation(queryGetUser, {id:user.id}));
+                    const newArr = friends.data.getUser.friends
+                    newArr.push(username)
+                    //console.log(newArr)
+                    const newFriendList = await API.graphql({query: mutations.updateUser, variables: {input: {id: user.id, friends: newArr}}})
+                    console.log(newFriendList.data)
+                    setNewArrayOfFriends(newArr)
+                    dispatch(setFriends(newArr));
+                }catch (e) {console.log(e)}
+
                 Alert.alert("Perfect!", `You can now start chatting with ${inputUsername}`,[{text: "Let's go", onPress: () => {navigation.navigate("Home")}}]);
             } else {
                 Alert.alert("We could not found that username. 🤯");
             }
             setIsLoading(false);
         } catch(e) { console.log(e), setIsLoading(false); }
+        } else {
+            Alert.alert('You already have a conversation with ', username)
+        }
+        
     }
+
 
     return (
         <ScrollView style={tw.style("bg-white")}>
@@ -86,7 +118,7 @@ const AddContactScreen = (props) => {
                 onPress={() => getContactInfo(inputUsername)}
                 style={FormStyles.button}
                 >
-                {isLoading ?  <ActivityIndicator color="#fafafa"/> :<Text style={tw.style("text-gray-100 text-lg py-2 text-center font-semibold")}>Done</Text>}
+                {isLoading ?  <ActivityIndicator color="#fafafa"/> :<Text style={tw.style("text-gray-100 text-lg py-2 text-center font-semibold")}>Add</Text>}
             </TouchableOpacity>
         </SafeAreaView>
         </ScrollView>

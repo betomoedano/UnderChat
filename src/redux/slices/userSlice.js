@@ -7,6 +7,7 @@ const initialState = {
     email: "",
     expoToken: "NO DATA",
     imageUrl: "",
+    friends:[],
 }
 
 export const userSlice = createSlice({
@@ -22,6 +23,7 @@ export const userSlice = createSlice({
                   email: action.payload.email,
                   expoToken: state.expoToken,
                   imageUrl: state.imageUrl,
+                  friends: state.friends,
               }
             // state = action.payload;
             // console.log("state from login Slice: " ,state);
@@ -35,6 +37,7 @@ export const userSlice = createSlice({
                   email: state.email,
                   expoToken: action.payload,
                   imageUrl: state.imageUrl,
+                  friends: state.friends,
               }
         },
         setName: (state, action) => {
@@ -46,6 +49,7 @@ export const userSlice = createSlice({
                   email: state.email,
                   expoToken: state.expoToken,
                   imageUrl: state.imageUrl,
+                  friends: state.friends,
               }
         },
         setImageUrl: (state, action) => {
@@ -57,6 +61,19 @@ export const userSlice = createSlice({
                   email: state.email,
                   expoToken: state.expoToken,
                   imageUrl: action.payload,
+                  friends: state.friends,
+              }
+        },
+        setFriends: (state, action) => {
+            return {
+                ...state,
+                  id: state.id,
+                  name: state.name,
+                  username: state.username,
+                  email: state.email,
+                  expoToken: state.expoToken,
+                  imageUrl: state.imageUrl,
+                  friends: action.payload,
               }
         },
         logout: (state) => {
@@ -68,6 +85,7 @@ export const userSlice = createSlice({
                   email: "", 
                   expoToken: "",
                   imageUrl:"",
+                  friends: [],
               }
             // state = initialState;
             // console.log("initial state")
@@ -75,6 +93,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const {login, logout, setExpoToken, setName, setImageUrl} = userSlice.actions;
+export const {login, logout, setExpoToken, setName, setImageUrl, setFriends} = userSlice.actions;
 
 export default userSlice.reducer;

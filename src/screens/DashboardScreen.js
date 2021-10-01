@@ -9,6 +9,7 @@ import tw from 'tailwind-react-native-classnames';
 export default function DashboardScreen(props) {
 
   const user = useSelector((state) => state.user)
+  //console.log(user.friends)
 
   const ProfilePicture = () => {
     return (
@@ -60,14 +61,27 @@ export default function DashboardScreen(props) {
       </View>
     </View>
     )
-
   }
+  const ListOfFriends = () => {
+    return (
+    <View>
+      <Text style={tw.style('text-gray-500 ml-7 mb-1')}>FRIENDS</Text>
+      <View style={styles.statusContainer}>
+      {
+        user.friends.map(friend => <Text key={friend} style={tw.style('text-gray-700 text-left')}> {friend} </Text>)
+      }
+      </View>
+    </View>
+    )
+  }
+
 
   return (
     <ScrollView style={{backgroundColor:"#F2F2F7"}} >
       <ProfilePicture/>
       <Status currentStatus="Hey there! I am using Underchat... 🚀 🎸"/>
       <StatusBar style="auto" />
+      <ListOfFriends/>
       <Button 
           onPress={() => {Auth.signOut()}} 
           title="sign Out" 

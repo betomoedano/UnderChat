@@ -21,16 +21,7 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
-      friends {
-        items {
-          id
-          userID
-          username
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      friends
       createdAt
       updatedAt
     }
@@ -56,16 +47,7 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
-      friends {
-        items {
-          id
-          userID
-          username
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      friends
       createdAt
       updatedAt
     }
@@ -91,100 +73,7 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
-      friends {
-        items {
-          id
-          userID
-          username
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateFriend = /* GraphQL */ `
-  subscription OnCreateFriend {
-    onCreateFriend {
-      id
-      userID
-      username
-      user {
-        id
-        name
-        username
-        email
-        expoToken
-        imageUri
-        status
-        chatRoomUser {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateFriend = /* GraphQL */ `
-  subscription OnUpdateFriend {
-    onUpdateFriend {
-      id
-      userID
-      username
-      user {
-        id
-        name
-        username
-        email
-        expoToken
-        imageUri
-        status
-        chatRoomUser {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteFriend = /* GraphQL */ `
-  subscription OnDeleteFriend {
-    onDeleteFriend {
-      id
-      userID
-      username
-      user {
-        id
-        name
-        username
-        email
-        expoToken
-        imageUri
-        status
-        chatRoomUser {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      friends
       createdAt
       updatedAt
     }
@@ -207,9 +96,7 @@ export const onCreateChatRoomUser = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -255,9 +142,7 @@ export const onUpdateChatRoomUser = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -303,9 +188,7 @@ export const onDeleteChatRoomUser = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -374,6 +257,7 @@ export const onCreateChatRoom = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -430,6 +314,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -486,6 +371,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
           expoToken
           imageUri
           status
+          friends
           createdAt
           updatedAt
         }
@@ -521,9 +407,7 @@ export const onCreateMessage = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -570,9 +454,7 @@ export const onUpdateMessage = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
@@ -619,9 +501,7 @@ export const onDeleteMessage = /* GraphQL */ `
         chatRoomUser {
           nextToken
         }
-        friends {
-          nextToken
-        }
+        friends
         createdAt
         updatedAt
       }
