@@ -14,6 +14,7 @@ import {SafeAreaView,
         TouchableOpacity, 
         RefreshControl, 
         Alert, 
+        Platform,
         Image, 
         ScrollView} from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -180,7 +181,8 @@ const styles = StyleSheet.create({
         paddingHorizontal:15,
         paddingTop:8,
         fontSize:16,
-        textAlignVertical:"auto"
-    },
+        paddingVertical:5,
+        paddingBottom:Platform.OS === "ios" ? 5 : 20
+      },
   });
   

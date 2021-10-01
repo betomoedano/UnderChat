@@ -2,7 +2,7 @@
   "expo": {
     "name": "UnderChat",
     "slug": "UnderChat",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "splash": {
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.ecostudios.underchat",
-      "buildNumber": "5",
+      "buildNumber": "6",
       "supportsTablet": true,
       "usesAppleSignIn": true
     },
@@ -26,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fafafa"
-      }
+      },
+      "package": "com.ecostudios.underchat"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -131,9 +131,9 @@ function Tabs() {
                 component={DashboardScreen}
                 options={(route) => ({
                     title:"Profile",
-                    headerRight: () => (
-                        <Button title='Edit'/>
-                    ),
+                    // headerRight: () => (
+                    //     <Button title='Edit'/>
+                    // ),
                     tabBarIcon:({focused}) => (
                         <Ionicons name="person" size={26} color={focused ? '#4BA8E2' : 'gray'} />
                     ),

@@ -39,6 +39,8 @@ Amplify.configure({
 
 LogBox.ignoreAllLogs(['Warning: ...'])
 
+LogBox.ignoreLogs(['Setting a timer']);
+
 function Home(props) {
   if(props.authState === "signedIn")
   return (

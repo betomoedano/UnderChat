@@ -52,7 +52,7 @@ export default function SignUp(props) {
     return(
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-170} >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SafeAreaView style={{height:windowHeight, paddingTop:windowHeight/10, width:windowWidth - 30}}>
+                <SafeAreaView style={{height:windowHeight, width:windowWidth - 30}}>
                 <ScrollView style={{paddingTop:windowHeight/4}}>
                     <Text style={tw.style("font-bold pb-7",{ fontSize: 34})}>Sign Up</Text>
                     <View style={{marginBottom:.5, height:60,}}>

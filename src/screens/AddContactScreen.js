@@ -86,7 +86,6 @@ const AddContactScreen = (props) => {
                     setNewArrayOfFriends(newArr)
                     dispatch(setFriends(newArr));
                 }catch (e) {console.log(e)}
-                sendPushNotification(contactExpoToken.toString());
                 Alert.alert("Perfect!", `You can now start chatting with ${inputUsername}`,[{text: "Let's go", onPress: () => {navigation.navigate("Home")}}]);
             } else {
                 Alert.alert("We could not found that username. 🤯");

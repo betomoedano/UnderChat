@@ -55,7 +55,7 @@ export default function ForgotPassword(props) {
             return(
                 <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-170} >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SafeAreaView style={{height:windowHeight, paddingTop:windowHeight/10, width:windowWidth - 30}}>
+                <SafeAreaView style={{height:windowHeight, width:windowWidth - 30}}>
                 <ScrollView style={{paddingTop:windowHeight/4}}>
                 <Text style={tw.style("font-bold pb-7",{ fontSize: 34})}>Forgot Password?</Text>
                 <Text style={tw.style("font-semibold text-gray-500 pb-12",{ fontSize: 17})}>Don't worry, enter your email and we'll send you a code to reset your password</Text>

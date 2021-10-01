@@ -113,7 +113,7 @@ export default function ChatRoomScreen(props) {
 
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    behavior={Platform.OS === "ios" ? "padding" : ""}
     keyboardVerticalOffset={95}
     style={{flex:1}}
   >

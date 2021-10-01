@@ -1,5 +1,21 @@
 import React, {useState, useEffect} from "react";
-import {SafeAreaView, ScrollView, ActivityIndicator, Text,Dimensions, TextInput,StyleSheet, View, TouchableOpacity,TouchableWithoutFeedback, Alert,KeyboardAvoidingView, Keyboard, Image, Button, TouchableOpacityBase} from "react-native";
+import {
+    SafeAreaView, 
+    ScrollView, 
+    ActivityIndicator, 
+    Text,
+    Dimensions, 
+    TextInput,
+    StyleSheet, 
+    View, 
+    TouchableOpacity,
+    TouchableWithoutFeedback, 
+    Alert,KeyboardAvoidingView, 
+    Keyboard, 
+    Image, 
+    Platform,
+    Button, 
+    TouchableOpacityBase} from "react-native";
 import tw from 'tailwind-react-native-classnames';
 import { validateEmail, validatePassword } from "../Validations/validation";
 import { Auth } from "aws-amplify";
@@ -38,11 +54,11 @@ export default function SignIn(props) {
     }
     if(props.authState === "signIn")
     return(
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-170} >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "" : "height"} keyboardVerticalOffset={-150} >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SafeAreaView style={{height:windowHeight, paddingTop:windowHeight/10, width:windowWidth - 30}}>
-                <ScrollView style={{paddingTop:windowHeight/4}}>
-                    <View style={{top:-30,flexDirection:"row", alignSelf:"center",  }}>
+                <SafeAreaView style={{height:windowHeight, width:windowWidth - 30}}>
+                <ScrollView style={{paddingTop:windowHeight/6}}>
+                    <View style={{flexDirection:"row", alignSelf:"center",  }}>
                         <Text style={tw.style("font-bold pb-12",{ fontSize: 41})}>Underchat</Text>
                     </View>
                     <Text style={tw.style("font-bold text-gray-500 pb-2",{ fontSize: 20})}>Sign In</Text>
