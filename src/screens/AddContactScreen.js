@@ -19,8 +19,8 @@ const AddContactScreen = (props) => {
     const [inputUsername, setInputUsername] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
-    const [newArrayOfFriends, setNewArrayOfFriends] = useState(user.friends)
-    
+    const [contactExpoToken, setContactExpoToken] = useState()
+    const [newArrayOfFriends, setNewArrayOfFriends] = useState([])
     const dispatch = useDispatch();
 
 
@@ -52,6 +52,8 @@ const AddContactScreen = (props) => {
             try {
             setIsLoading(true);
             const contactInfo = await API.graphql({query: queries.listUsers, variables: {filter:{username:{eq:username}}}});
+            console.log(contactInfo.data.listUsers.items[0].expoToken)
+            setContactExpoToken(contactInfo.data.listUsers.items[0].expoToken)
             if (contactInfo.data.listUsers.items.map(getContactUsername).toString()) {  
 
                 // if Contact exist we create a new chat room!
@@ -80,11 +82,11 @@ const AddContactScreen = (props) => {
                     newArr.push(username)
                     //console.log(newArr)
                     const newFriendList = await API.graphql({query: mutations.updateUser, variables: {input: {id: user.id, friends: newArr}}})
-                    console.log(newFriendList.data)
+                    //console.log(newFriendList.data)
                     setNewArrayOfFriends(newArr)
                     dispatch(setFriends(newArr));
                 }catch (e) {console.log(e)}
-
+                sendPushNotification(contactExpoToken.toString());
                 Alert.alert("Perfect!", `You can now start chatting with ${inputUsername}`,[{text: "Let's go", onPress: () => {navigation.navigate("Home")}}]);
             } else {
                 Alert.alert("We could not found that username. 🤯");

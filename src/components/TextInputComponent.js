@@ -69,7 +69,7 @@ function TextInputComponent(props) {
                 const newMessageData = await API.graphql(graphqlOperation(createMessage, { input }))
                 await updateChatRoomLastMessage(newMessageData.data.createMessage.id)
                 impactAsync('light')
-                await sendPushNotification(props.expoToken)
+                await sendPushNotification()
                 console.log("message sent with push and saved!")
             } catch (error) {
                 console.log("error ", error);
@@ -77,7 +77,7 @@ function TextInputComponent(props) {
         }
       }
 
-    async function sendPushNotification(expoPushToken) {
+    async function sendPushNotification() {
         const message = {
           to: props.expoToken,
           sound: 'default',
