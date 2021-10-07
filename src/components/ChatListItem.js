@@ -66,7 +66,16 @@ function ChatListItem (props) {
 
     const onPressChat = () => {
       //console.log(chatRoom)
-        navigation.navigate("ChatRoomScreen", {id: chatRoom.id, contactName: otherUser.username, expoPushToken: otherUser.expoToken, contactStatus: otherUser.status, contactEmail:otherUser.email});
+        navigation.navigate(
+          "ChatRoomScreen", 
+          {
+            id: chatRoom.id, 
+            contactName: otherUser.username, 
+            expoPushToken: otherUser.expoToken, 
+            contactStatus: otherUser.status, 
+            contactEmail:otherUser.email,
+            otherUserImageUrl: otherUser.imageUri,
+          });
     }
     return (
             <TouchableOpacity 

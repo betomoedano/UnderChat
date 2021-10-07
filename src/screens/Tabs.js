@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./HomeScreen"
 import DashboardScreen from "./DashboardScreen"
 import AddContactScreen from "./AddContactScreen";
-import { View, Image, Text,StyleSheet, Dimensions, Alert, Button } from "react-native";
+import { View, Image, Text,StyleSheet, Dimensions, Alert, Button,  } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackActions } from "@react-navigation/core";
@@ -48,15 +48,8 @@ function HomeStackScreen({ navigation }) {
                 // backgroundColor: '#f5f6f6',
                 blurEffect: "light",
             },
-            // headerBackTitle: 'Back',
             headerTintColor: '#000',
             headerLargeTitle: true,
-            headerTranslucent: Platform.OS === 'ios',
-            headerHideShadow: true,
-            headerTitleStyle: {},
-            headerBlurEffect:"light",
-            // headerTitleAlign: 'center',
-            // headerSearchBarOptions:true,
             tabBarIcon: ({ focused }) => <MaterialCommunityIcons name="home" size={28} color={focused ? '#4BA8E2' : 'gray'}/>,
             headerRight: () => (
                 <Ionicons style={tw.style("pr-5")} name="add" size={30} color='#4BA8E2' onPress={() => navigation.navigate('Contact')}/>
@@ -76,10 +69,20 @@ function HomeStackScreen({ navigation }) {
                     options={({ route })  => ({
                         title: route.params.contactName,
                         headerBackTitle:"",
-                        headerTitleStyle: {
-                            fontWeight:"bold"
-                        },
-                        headerTitle: () => <ContactTitle username={route.params.contactName} contactEmail={route.params.contactEmail} contactStatus={route.params.contactStatus}/>
+                        // headerLargeTitle: true,
+                        // headerLargeTitleStyle: {
+                        //     fontSize:0,
+                        // },
+                        // headerTransparent:true,
+                        // headerBlurEffect:"systemUltraThinMaterial",
+
+                        headerTitle: () => 
+                        <ContactTitle 
+                            username={route.params.contactName} 
+                            contactEmail={route.params.contactEmail} 
+                            contactStatus={route.params.contactStatus}
+                            otherUserImageUrl={route.params.otherUserImageUrl}
+                        />
                         
                       })}
                       

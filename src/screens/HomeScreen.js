@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Text, Button, View, FlatList, ActivityIndicator, Alert, StatusBar, StyleSheet, Platform} from "react-native"
+import { Text, Button, View, FlatList, ActivityIndicator, Alert, StyleSheet, Platform} from "react-native"
 import { login, setFriends, setImageUrl} from "../redux/slices/userSlice";
 import { Auth } from "aws-amplify";
 import { API, graphqlOperation, } from 'aws-amplify'
@@ -14,6 +14,7 @@ import tw from "tailwind-react-native-classnames";
 import { queryGetUser } from "../graphql/queryGetUser";
 import { ScrollView } from "react-native-gesture-handler";
 import axios from 'axios';
+import { StatusBar } from 'expo-status-bar';
 
 
 
@@ -153,6 +154,7 @@ export default function HomeScreen ({ navigation }) {
 
     return (
       <View style={{backgroundColor:"#fff"}}>
+              <StatusBar style="auto" />
           {
             chatRooms.length >= 1 ?
                 <FlatList
@@ -171,7 +173,6 @@ export default function HomeScreen ({ navigation }) {
                   }
                </View>
           }        
-      <StatusBar style="auto" />
       </View>
     )
 }

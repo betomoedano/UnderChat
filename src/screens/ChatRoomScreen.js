@@ -43,7 +43,7 @@ export default function ChatRoomScreen(props) {
               queries.messagesByChatRoom, {
                 chatRoomID: route.params.id,
                 sortDirection: "DESC",
-                limit:15,
+                limit:25,
                 nextToken: nextToken,
               }
             )
@@ -88,9 +88,7 @@ export default function ChatRoomScreen(props) {
     ).subscribe({
       next: (data) => {
         const newMessage = data.value.data.onCreateMessage;
-        //console.log(newMessage, "NEW MESAGGE")
         fetchMessages();
-        // setMessages([newMessage, ...messages]);
       }
     });
 
@@ -117,6 +115,7 @@ export default function ChatRoomScreen(props) {
     keyboardVerticalOffset={95}
     style={{flex:1}}
   >
+      <StatusBar style="auto" />
       <View style={{height:'100%', alignItems:"center", backgroundColor:"#f2f2f7"}}>
         {isLoading ? <ActivityIndicator size="small" /> : <Text></Text>}
         <FlatList 
@@ -132,7 +131,6 @@ export default function ChatRoomScreen(props) {
         <View style={{position:"absolute", bottom:4}}>
           <TextInputComponent chatRoomID={route.params.id} expoToken={route.params.expoPushToken} contactName={route.params.contactName}/>
         </View>
-        <StatusBar style="auto" />
       </View>
     </KeyboardAvoidingView>
   );
