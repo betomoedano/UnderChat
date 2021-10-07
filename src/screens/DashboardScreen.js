@@ -39,7 +39,7 @@ export default function DashboardScreen(props) {
 
   return (
     <ScrollView style={{backgroundColor:"#F2F2F7"}} >
-      <ProfilePicture username={user.username} email={user.email} imageUrl={user.imageUrl}/>
+      <ProfilePicture username={user.username} email={user.email} imageUrl={user.imageUrl} userID={user.id}/>
       <Status currentStatus="Hey there! I am using Underchat... 🚀 🎸"/>
       <StatusBar style="auto" />
       <ListOfFriends/>

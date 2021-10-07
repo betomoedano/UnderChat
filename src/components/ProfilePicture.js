@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Platform, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions,Image, Platform, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import axios from 'axios';
 import tw from 'tailwind-react-native-classnames';
+import { API, graphqlOperation, } from 'aws-amplify'
+import { updateUser } from '../graphql/mutations';
+import { UPLOAD_PRESET, CLOUD_NAME } from "@env"
 
 
 const ProfilePicture = (props) => {
@@ -20,18 +23,36 @@ const ProfilePicture = (props) => {
         })();
       }, []);
 
+    const updatePictureInDB = async (NewImageUri) => {
+        const response = await API.graphql({query: updateUser, variables: {input: {id: props.userID, imageUri: NewImageUri}}})
+        //console.log("photo updated correctly", response.data)
+        }
+    
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           aspect: [4, 3],
-          quality: 1,
+          quality: .3,
+          base64: true,
         });
     
-        console.log(result);
+        //console.log(result);
+        let base64Img = `data:image/jpg;base64,${result.base64}`;
+        let apiUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload/`;
+        let data = {
+            "file": base64Img,
+            "upload_preset": UPLOAD_PRESET,
+                  }
     
         if (!result.cancelled) {
           setImage(result.uri);
+          try {
+            const response = await axios.post(apiUrl, data);
+            //console.log(response.data.public_id);
+            //console.log(response.data.url);
+            await updatePictureInDB(response.data.url);
+        } catch (e) {console.log(e);}
         }
       };
 
