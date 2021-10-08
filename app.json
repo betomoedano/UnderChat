@@ -2,7 +2,7 @@
   "expo": {
     "name": "UnderChat",
     "slug": "UnderChat",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "splash": {
@@ -14,11 +14,11 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/images/*"
     ],
     "ios": {
       "bundleIdentifier": "com.ecostudios.underchat",
-      "buildNumber": "6",
+      "buildNumber": "7",
       "supportsTablet": true,
       "usesAppleSignIn": true
     },

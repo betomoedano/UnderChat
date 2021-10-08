@@ -5,7 +5,8 @@ import axios from 'axios';
 import tw from 'tailwind-react-native-classnames';
 import { API, graphqlOperation, } from 'aws-amplify'
 import { updateUser } from '../graphql/mutations';
-import { UPLOAD_PRESET, CLOUD_NAME } from "@env"
+import { UPLOAD_PRESET, CLOUD_NAME } from "@env";
+import CacheImage from './CacheImage';
 
 
 const ProfilePicture = (props) => {
@@ -61,8 +62,9 @@ const ProfilePicture = (props) => {
             <Text style={tw.style('text-gray-500 ml-7 mb-1 mt-5')}>INFO</Text>
             <View style={styles.containerProfilePicture}>
                 {props.imageUrl ?
-                <View style={{alignItems:"center"}}>          
-                <Image                           
+                <View style={{alignItems:"center"}}>  
+                <CacheImage uri = {props.imageUrl}/>        
+                {/* <Image                           
                     style={{
                         resizeMode:"cover",
                             width: 150,
@@ -72,7 +74,7 @@ const ProfilePicture = (props) => {
                         source={{
                         uri: image ? image : props.imageUrl 
                         }} 
-                    />  
+                    />   */}
                     <Text style={tw.style('text-3xl font-bold text-gray-700 ')}>{props.username}</Text>
                     <Text style={tw.style('text-xl font-bold text-gray-500 ')}>{props.email}</Text>
                 </View>
